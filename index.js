@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 require('dotenv').config()
 
-const {Post} = require('./api/models/Post')
+const Post = require('./api/models/Post')
 
 const typeDefs = gql`
 scalar Date
@@ -14,7 +14,7 @@ scalar Date
         body: String!
         createdAt: Date
         username: String!
-    }
+    },
     type Query {
         getPosts: [Post]
     }
@@ -44,6 +44,11 @@ mongoose.connect(process.env.connectionString_MONGO, { useNewUrlParser: true }).
 
     return server.listen({port: 5000}).then((result) => {
         console.log(`Server running at ${result.url}`)
+    }).catch(error => {
+        console.log(error);
     })
+})
+.catch(error => {
+    console.log(error);
 });
 
