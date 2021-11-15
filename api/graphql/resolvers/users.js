@@ -2,13 +2,18 @@ const User = require('../../models/User');
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const {UserInputError} = require('apollo-server');
+const { validateRegisterInput } = require('../../../util/validators')
 
 module.exports = {
     Mutation: {
         async register(_, {registerInput: {username, email, password, confirmPassword }}) {
-            //TODO: Validate user
-            //TODO: Hash password and auth token
 
+            const {valid, errors} = validateRegisterInput(username, email, password, confirmPassword);
+
+            if (!valid)  {
+                throw new UserInputError('Errors', { errors });
+            }
+            
             //If user exists already, throw an error.
             const user = await User.findOne({ username })
 
@@ -23,6 +28,7 @@ module.exports = {
             //bcrypt hashes the password in 12 rounds
             password = await bcrypt.hash(password, 12)
 
+            //a new user with the hashed password is created
             const newUser = new User({
                 email,
                 username,
@@ -30,6 +36,8 @@ module.exports = {
                 createdAt: new Date()
             });
 
+            //new user is pushed to backend 
+            //and a token with the backend response is created
             const res = await newUser.save();
 
             const token = jwt.sign({
