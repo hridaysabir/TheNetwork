@@ -31,5 +31,6 @@ scalar Date
 
     type Mutation {
         register(registerInput: RegisterInput): User!
+        login(username: String!, password: String!): User!
     }
 `;
