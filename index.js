@@ -7,7 +7,10 @@ const resolvers = require('./api/graphql/resolvers')
 
 const server = new ApolloServer({
     typeDefs,
-    resolvers
+    resolvers,
+    context: ({req}) => ({
+        req
+    })
 });
 
 mongoose.connect(process.env.connectionString_MONGO, { useNewUrlParser: true }).then(() => {
