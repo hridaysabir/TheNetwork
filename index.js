@@ -1,15 +1,17 @@
-const {ApolloServer} = require('apollo-server');
+const {ApolloServer, PubSub } = require('apollo-server');
 const mongoose = require('mongoose');
 require('dotenv').config()
 
 const typeDefs = require('./api/graphql/typeDefs')
 const resolvers = require('./api/graphql/resolvers')
 
+const pubsub = new PubSub();
 const server = new ApolloServer({
     typeDefs,
     resolvers,
     context: ({req}) => ({
-        req
+        req,
+        pubsub
     })
 });
 
