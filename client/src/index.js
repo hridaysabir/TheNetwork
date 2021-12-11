@@ -1,5 +1,4 @@
 import ReactDOM from 'react-dom';
-import React from 'react'
 import reportWebVitals from './reportWebVitals';
 import ApolloProvider from './ApolloProvider'
 
