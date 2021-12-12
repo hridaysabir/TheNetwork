@@ -11,13 +11,35 @@ function Register() {
     email: '',
   })
 
+  const REGISTER_USER = gql`
+    mutation register(
+      $username: String!
+      $email: String!
+      $password: String!
+      $confirmPassword: String!
+    ) {
+      register(
+        registerInput: {
+          username: $username
+          email: $email
+          password: $password
+          confirmPassword: $confirmPassword
+        }
+      ) {
+        id
+        email
+        username
+        createdAt
+        token
+      }
+    }
+  `
+
   const [addUser, { loading }] = useMutation(REGISTER_USER, {
     update(proxy, result) {
       console.log(result)
     },
-    variables: {
-      username: values,
-    },
+    variables: values,
   })
 
   const onChangeUsername = (event) => {
@@ -43,23 +65,39 @@ function Register() {
 
   return (
     <div className="form-container">
-      <Form onSubmit={onSubmit}>
-        <Form.Field required>
+      <Form onSubmit={onSubmit} className={loading ? 'loading' : ''}>
+        <Form.Field>
           <label>Username</label>
-          <input placeholder="Username" onChange={onChangeUsername} />
+          <input
+            placeholder="Username"
+            onChange={onChangeUsername}
+            name="username"
+          />
         </Form.Field>
-        <Form.Field required>
+        <Form.Field>
           <label>Email</label>
-          <input placeholder="Email" onChange={onChangeEmail} />
+          <input
+            placeholder="Email"
+            onChange={onChangeEmail}
+            type="email"
+            name="email"
+          />
         </Form.Field>
-        <Form.Field required>
+        <Form.Field>
           <label>Password</label>
-          <input placeholder="Password" onChange={onChangePassword} />
+          <input
+            placeholder="Password"
+            onChange={onChangePassword}
+            type="password"
+            name="password"
+          />
         </Form.Field>
         <Form.Field required>
           <label>Confirm Password</label>
           <input
             placeholder="confirmPassword"
+            type="password"
+            name="confirmPassword"
             onChange={onChangeConfirmPassword}
           />
         </Form.Field>
@@ -68,29 +106,5 @@ function Register() {
     </div>
   )
 }
-
-const REGISTER_USER = gql`
-  mutation register(
-    $username: String!
-    $email: String!
-    $password: String!
-    $confirmPassword: String!
-  ) {
-    register(
-      registerInput: {
-        username: $username
-        email: $email
-        password: $password
-        confirmPassword: $confirmPassword
-      }
-    ) {
-      id
-      email
-      username
-      createdAt
-      token
-    }
-  }
-`
 
 export default Register
