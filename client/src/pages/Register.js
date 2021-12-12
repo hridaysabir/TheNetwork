@@ -26,11 +26,7 @@ function Register() {
 
   const onSubmit = (event) => {
     event.preventDefault()
-    try {
-      addUser()
-    } catch (error) {
-      console.log('Bad Request')
-    }
+    addUser()
   }
 
   return (
