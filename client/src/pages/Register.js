@@ -20,8 +20,20 @@ function Register() {
     },
   })
 
-  const onChange = (event) => {
-    setValues({ ...values, [event.target.name]: event.target.value })
+  const onChangeUsername = (event) => {
+    setValues({ ...values, username: event.target.value })
+  }
+
+  const onChangePassword = (event) => {
+    setValues({ ...values, password: event.target.value })
+  }
+
+  const onChangeEmail = (event) => {
+    setValues({ ...values, email: event.target.value })
+  }
+
+  const onChangeConfirmPassword = (event) => {
+    setValues({ ...values, confirmPassword: event.target.value })
   }
 
   const onSubmit = (event) => {
@@ -31,40 +43,27 @@ function Register() {
 
   return (
     <div className="form-container">
-      <Form onSubmit={onSubmit} noValidate>
-        <h1>Register</h1>
-        <Form.Input
-          label="Username"
-          placeholder="Username"
-          type="text"
-          name="Username"
-          value={values.username}
-          onChange={onChange}
-        />
-        <Form.Input
-          label="Email"
-          placeholder="Email"
-          name="Email"
-          value={values.email}
-          onChange={onChange}
-        />
-        <Form.Input
-          label="Password"
-          placeholder="Password"
-          name="Password"
-          value={values.password}
-          onChange={onChange}
-        />
-        <Form.Input
-          label="Confirm Password"
-          placeholder="Confirm Password"
-          name="confirmPassword"
-          value={values.confirmPassword}
-          onChange={onChange}
-        />
-        <Button type="submit" primary>
-          Register
-        </Button>
+      <Form onSubmit={onSubmit}>
+        <Form.Field required>
+          <label>Username</label>
+          <input placeholder="Username" onChange={onChangeUsername} />
+        </Form.Field>
+        <Form.Field required>
+          <label>Email</label>
+          <input placeholder="Email" onChange={onChangeEmail} />
+        </Form.Field>
+        <Form.Field required>
+          <label>Password</label>
+          <input placeholder="Password" onChange={onChangePassword} />
+        </Form.Field>
+        <Form.Field required>
+          <label>Confirm Password</label>
+          <input
+            placeholder="confirmPassword"
+            onChange={onChangeConfirmPassword}
+          />
+        </Form.Field>
+        <Button type="submit">Submit</Button>
       </Form>
     </div>
   )
