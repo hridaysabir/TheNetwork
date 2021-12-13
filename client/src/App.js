@@ -4,6 +4,7 @@ import 'semantic-ui-css/semantic.min.css'
 import { Container } from 'semantic-ui-react'
 import './App.css'
 import { AuthProvider } from './context/auth'
+import AuthRoute from './util/AuthRoute'
 
 import Home from './pages/Home'
 import Register from './pages/Register'
@@ -19,12 +20,12 @@ export default function App() {
           <Route exact path="/">
             <Home />
           </Route>
-          <Route exact path="/login">
+          <AuthRoute exact path="/login">
             <Login />
-          </Route>
-          <Route exact path="/register">
+          </AuthRoute>
+          <AuthRoute exact path="/register">
             <Register />
-          </Route>
+          </AuthRoute>
         </Container>
       </Router>
     </AuthProvider>

@@ -7,7 +7,7 @@ import { Grid } from 'semantic-ui-react'
 import '../App.css'
 
 function Home() {
-  const { loading, data: { getPosts: posts = {} } = {} } =
+  const { loading, data: { getPosts: posts = [] } = {} } =
     useQuery(FETCH_POSTS_QUERY)
 
   return (
