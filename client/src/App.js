@@ -11,6 +11,8 @@ import Register from './pages/Register'
 import Login from './pages/Login'
 import MenuBar from './components/MenuBar'
 
+//Use component in AuthRoute otherwise rendering a Route within a Route will be ignored
+
 export default function App() {
   return (
     <AuthProvider>
@@ -20,12 +22,8 @@ export default function App() {
           <Route exact path="/">
             <Home />
           </Route>
-          <AuthRoute exact path="/login">
-            <Login />
-          </AuthRoute>
-          <AuthRoute exact path="/register">
-            <Register />
-          </AuthRoute>
+          <AuthRoute exact path="/login" Component={Login} />
+          <AuthRoute exact path="/register" Component={Register} />
         </Container>
       </Router>
     </AuthProvider>
