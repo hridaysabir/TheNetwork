@@ -8,21 +8,25 @@ function PostForm() {
   const [values, setValues] = React.useState({
     body: '',
   })
-  const [errors, setErrors] = React.useState({})
+  const [errors] = React.useState({})
 
   const [createPost, { error }] = useMutation(CREATE_POST_MUTATION, {
+    variables: values,
     update(proxy, result) {
       const data = proxy.readQuery({
         query: FETCH_POSTS_QUERY,
       })
-      data.getPosts = [result.data.createPost, ...data.getPosts]
-      proxy.writeQuery({ query: FETCH_POSTS_QUERY }, data)
+      proxy.writeQuery({
+        query: FETCH_POSTS_QUERY,
+        data: {
+          getPosts: [result.data.createPost, ...data.getPosts],
+        },
+      })
       values.body = ''
     },
-    onError(error) {
-      setErrors(error.graphQLErrors[0].extensions.exception.errors)
+    onError(err) {
+      return err
     },
-    variables: values,
   })
 
   const onSubmit = (event) => {
@@ -50,7 +54,10 @@ function PostForm() {
         </Button>
       </Form>
       {error && (
-        <div className="ui error message">
+        <div
+          className="ui error message"
+          style={{ marginBottom: 10, width: '60%' }}
+        >
           <ul>
             <li>{error.graphQLErrors[0].message}</li>
           </ul>
